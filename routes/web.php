@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MainController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('login', LoginController::class);
 
-Route::resource('login', ProjectController::class);
-
+Route::resource('main', MainController::class);

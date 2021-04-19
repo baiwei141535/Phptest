@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\login;
+use App\Models\main;
 use Illuminate\Http\Request;
 
-class ProjectController extends Controller
+class MainController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,11 @@ class ProjectController extends Controller
     public function index()
     {
         //
-        $logins = login::latest()->paginate(4);
-        return view('testlogin.login',compact('logins'))
-        ->with('i', (request()->input('page', 1) - 1) * 4);
+
+        $goods = main::latest()->paginate(5);
+
+        return view('main.goods', compact('goods'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -28,7 +30,8 @@ class ProjectController extends Controller
     public function create()
     {
         //
-        return view('testlogin.signup');
+
+        return view('main.Create');
     }
 
     /**
@@ -41,25 +44,24 @@ class ProjectController extends Controller
     {
         //
         $request->validate([
-            'account' => 'required',
-            'password' => 'required',
             'name' => 'required',
-            
+            'price' => 'required',
+            'describe' => 'required',
         ]);
 
-        login::create($request->all());
+        main::create($request->all());
 
-        return redirect()->route('login.index')
-            ->with('success', 'account created successfully.');
+        return redirect()->route('main.index')
+            ->with('success', 'goods created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\login  $login
+     * @param  \App\Models\main  $main
      * @return \Illuminate\Http\Response
      */
-    public function show(login $login)
+    public function show(main $main)
     {
         //
     }
@@ -67,35 +69,49 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\login  $login
+     * @param  \App\Models\main  $main
      * @return \Illuminate\Http\Response
      */
-    public function edit(login $login)
+    public function edit(main $main)
     {
         //
-        return view('projects.login',compact('login'));
+        return view('main.Edit', compact('main'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\login  $login
+     * @param  \App\Models\main  $main
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, login $login)
+    public function update(Request $request, main $main)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'describe' => 'required',
+        ]);
+        $main->update($request->all());
+
+        return redirect()->route('main.index')
+            ->with('success', 'goods updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\login  $login
+     * @param  \App\Models\main  $main
      * @return \Illuminate\Http\Response
      */
-    public function destroy(login $login)
+    public function destroy(main $main)
     {
         //
+
+        $main->delete();
+
+        return redirect()->route('main.index')
+            ->with('success', 'goods deleted successfully');
     }
 }
