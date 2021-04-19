@@ -19,5 +19,6 @@ Route::get('/', function () {
 });
 
 Route::resource('login', LoginController::class);
+Route::post('/login/verfity',[LoginController::class,'login']);
 
 Route::resource('main', MainController::class);

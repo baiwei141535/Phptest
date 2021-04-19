@@ -34,7 +34,7 @@
         </div>
     @endif
 
-    <form action="{{ route('login.index') }}" method="POST" >
+    <form action="/login/verfity" method="POST" >
         @csrf
 
         <div class="row">
