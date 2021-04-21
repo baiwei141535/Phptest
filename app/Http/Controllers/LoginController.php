@@ -22,6 +22,24 @@ class LoginController extends Controller
 
 
 
+
+    public function login(Request $request)
+    {
+        $logins = login::latest()->paginate(4);;
+
+        $account = $request-> account;
+        $password = $request-> password;
+
+        foreach($logins as $login){
+            if( $account == $login->account && $password == $login->password){
+                return redirect()->route('main.index');
+            }
+            return redirect()->route('login.index')
+                ->with('fail', 'login failed.');
+        }
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
